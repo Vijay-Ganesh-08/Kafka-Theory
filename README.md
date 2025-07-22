@@ -65,43 +65,34 @@ Contains theory part of Kafka Programming
     - Data redundancy while running Kafka without Zookeeper.
     - Simplified Kafka architecture without any third-party service dependencies.
 
-Installations: 
-
-Apache Kafka - Open Source
-
-https://kafka.apache.org/downloads
-
-Commercial Distribution - Confluent Kafka Community Edition
-
-https://www.confluent.io/get-started/?product=self-managed
-
-Kafka Offset explorer - GUI interface to manage Kafka
-
-https://www.kafkatool.com/download.html
+### Installations: 
+- Apache Kafka - Open Source : https://kafka.apache.org/downloads
+- Commercial Distribution - Confluent Kafka Community Edition : https://www.confluent.io/get-started/?product=self-managed
+- Kafka Offset explorer - GUI interface to manage Kafka : https://www.kafkatool.com/download.html
 
 ### Commands & Steps to Perform Locally
 
 - ZooKeeper
     - run the below script
-        - bin/zookeeper-server-start.sh config/zookeeper.properties
+        - `bin/zookeeper-server-start.sh config/zookeeper.properties`
     - Default port 2181
 - kafka Server
     - run the below script
-        - bin/kafka-server-start.sh config/server.properties
+        - `bin/kafka-server-start.sh config/server.properties`
     - Default port is 9092
 - Topic → Partition count, Replication Factor
 - run the below script
-    - bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic javatraining-topic --partitions 3 --replication-factor 1
+    - `bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic javatraining-topic --partitions 3 --replication-factor 1`
     --bootstrap-server localhost:9092 —> bootstrap server
     - --create --topic javatraining-topic —> creation of topic with the name javatraining-topic
     - --partitions 3 —> 3 partitions defined for the topic
     - --replication-factor 1 —> 1 replica defined for the topic
-- bin/kafka-topics.sh --bootstrap-server localhost:9092 --list —> to show the list of topics available.
-- bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic javatraining-topic —> to describe the specific topic in detail.
-- bin/kafka-console-producer.sh --broker-list localhost:9092 --topic javatraning-topic —> to start the producer to push messages.
+- `bin/kafka-topics.sh --bootstrap-server localhost:9092 --list` —> to show the list of topics available.
+- `bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe` --topic javatraining-topic —> to describe the specific topic in detail.
+- `bin/kafka-console-producer.sh --broker-list localhost:9092 --topic javatraning-topic` —> to start the producer to push messages.
     - --broker-list localhost:9092 —> list of brokers which needs to be sent.
     - --topic javatraning-topic —> topic name which needs to be sent
-- bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic javatraining-topic --from-beginning —> to start the consumer to read the messages
+- `bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic javatraining-topic --from-beginning` —> to start the consumer to read the messages
     - --bootstrap-server localhost:9092 —> bootstrap server which needs to be listened.
     - --topic javatraining-topic —> topic which needs to be listened.
     - --from-beginning —> read message from offset or beginning
@@ -110,9 +101,9 @@ https://www.kafkatool.com/download.html
 ### Install Kafka via Docker Image:
 
 - Navigate to the folder of docker-compose.yml file and execute the below command.
-- docker compose -f docker-compose.yml up -d
+- `docker compose -f docker-compose.yml up -d`
 - Create a topic
-    - kafka-topics.sh --create --zookeeper zookeeper:2181  --topic docket-kafka-topic --partitions 1 --replication-factor 1
+    - `kafka-topics.sh --create --zookeeper zookeeper:2181  --topic docket-kafka-topic --partitions 1 --replication-factor 1`
 
 ## Producer
 
@@ -146,3 +137,41 @@ https://www.kafkatool.com/download.html
 - When each consumer is assigned to a partition and if there’s an extra consumer instance available with work as DR and its called Consumer Rebalancing.
 - @KafkaListener is used to listen to specific topic
 - Group-Id is mandatory to consume from a Topic
+
+
+# Commands
+## Open Source Kafka Startup in local
+
+- Start Zookeeper Server
+`sh bin/zookeeper-server-start.sh config/zookeeper.properties`
+- Start Kafka Server / Broker
+`sh bin/kafka-server-start.sh config/server.properties`
+- Create topic
+`sh bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic NewTopic --partitions 3 --replication-factor 1`
+- list out all topic names
+`sh bin/kafka-topics.sh --bootstrap-server localhost:9092 --list`
+- Describe topics
+`sh bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic NewTopic`
+- Produce message
+`sh bin/kafka-console-producer.sh --broker-list localhost:9092 --topic NewTopic`
+- consume message
+`sh bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic NewTopic --from-beginning`
+
+## Confluent Kafka Community Edition in local
+
+- Start Zookeeper Server
+`bin/zookeeper-server-start etc/kafka/zookeeper.properties`
+- Start Kafka Server / Broker
+`bin/kafka-server-start etc/kafka/server.properties`
+- Create topic
+`bin/kafka-topics --bootstrap-server localhost:9092 --create --topic NewTopic1 --partitions 3 --replication-factor 1`
+- list out all topic names
+`bin/kafka-topics --bootstrap-server localhost:9092 --list`
+- Describe topics
+`bin/kafka-topics --bootstrap-server localhost:9092 --describe --topic NewTopic1`
+- Produce message
+`bin/kafka-console-producer --broker-list localhost:9092 --topic NewTopic1`
+- consume message
+`bin/kafka-console-consumer --bootstrap-server localhost:9092 --topic NewTopic1 --from-beginning `
+- Send CSV File data to kafka
+`bin/kafka-console-producer --broker-list localhost:9092 --topic NewTopic1 <bin/customers.csv`
