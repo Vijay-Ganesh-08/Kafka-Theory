@@ -131,12 +131,30 @@ Contains theory part of Kafka Programming
 - Some companies have a UI portal to create topic and managing the same
 - That can be used to create topic with required configurations.
 
+### Sending JSON Object
+
+- Below properties to be added in the application.properties file in-order to send the JSON Object to Kafka Topic
+- spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+- spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+- The configuration can also be done via Java Class files. it's given in config\KafkaProducerConfig class file.
+- KafkaTemplate.send is a overloaded method, were the producer can send message to specific Partition.
+
 ## Consumer
 
 - When there’s multiple partitions of the producer, we can have multiple instance of the consumer to share the load.
 - When each consumer is assigned to a partition and if there’s an extra consumer instance available with work as DR and its called Consumer Rebalancing.
 - @KafkaListener is used to listen to specific topic
 - Group-Id is mandatory to consume from a Topic
+
+### Consuming JSON Object
+
+- Below properties to be added in the application.properties file in-order to read the JSON Object from Kafka Topic
+- spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+- spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
+- spring.kafka.consumer.properties.spring.json.trusted.packages=com.training.model
+- The configuration can also be done via Java Class files. its given in config\EventConsumerConfig class file.
+- With the below command and TopicPartition annotation, consumer can be routed to single partition to listen the messages.
+- `topicPartitions = {@TopicPartition(topic="<TopicName>",partitions = {"2"})}`
 
 
 # Commands
